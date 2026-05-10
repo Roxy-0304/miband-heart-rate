@@ -260,5 +260,7 @@ async fn handle_device(
         );
         std::io::stdout().flush().unwrap();
     }
+    // Disconnect the device to ensure clean state for reconnection
+    let _ = adapter.disconnect_device(&device).await;
     Err("No longer heart rate notify".into())
 }

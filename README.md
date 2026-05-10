@@ -1,40 +1,36 @@
 
-## 免责声明 Disclaimer
+## 免责声明
 
 > 本项目 Fork 自 [Tnze/miband-heart-rate](https://github.com/Tnze/miband-heart-rate)，代码由 AI 编写。
-> 
-> This project is Forked from [Tnze/miband-heart-rate](https://github.com/Tnze/miband-heart-rate), code written by AI.
 
-# MiBand Heart Rate Demo
+# 小米手环心率演示程序
 
-A Demo of reading "Shear heart rate data" of Xiaomi Smart Band 10. Enable the option in official App is required.
-
-接收小米手环10 “运动心率广播” Demo，需在手环设置-心率广播中开启广播功能。
+接收小米手环“运动心率广播”的演示程序。需要在手环设置-心率广播中开启广播功能。
 
 欢迎二次开发。
 
-## Supported Platform
+## 支持的平台
 
-use `bluest` crate. I copy its words below.
+使用 `bluest` crate。以下引用其说明：
 
-> Bluest is a cross-platform Bluetooth Low Energy (BLE) library for Rust. It currently supports Windows (version 10 and later), MacOS/iOS, and Linux. Android support is planned.
+> Bluest 是一个跨平台的 Rust 低功耗蓝牙（BLE）库。目前支持 Windows（版本 10 及以上）、MacOS/iOS 和 Linux。Android 支持正在计划中。
 
-So it supported:
+因此支持：
 
 - Windows 10/11
 - MacOS/iOS
 - Linux
 
-## Supported MiBands
+## 支持的小米手环
 
-MiBand 10 小米手环 10
+小米手环 10
 
-Tested on MiBand10/NFC.
+已在 MiBand10/NFC 上测试通过。
 
 ## 功能特性
 
-- **实时心率显示**：使用 `print!` + `flush()` 实现同一行实时刷新，无滚屏
-- **Web 界面**：浏览器中实时显示心率数据和传感器接触状态
+- **实时心率显示**：使用 `print!` + `flush()` 在同一行实时刷新，无滚动
+- **Web 界面**：在浏览器中实时显示心率数据和传感器接触状态
 - **自定义样式**：支持在 Web 界面中注入自定义 CSS
 - **跨平台支持**：Windows、macOS/iOS、Linux 均可运行
 
@@ -44,14 +40,14 @@ Tested on MiBand10/NFC.
 
 实时查看心率数据和传感器状态。
 
-## Screenshot
+## 截图
 
 ![Alt text](doc/screenshot.png)
 
-## 推荐使用的CSS
+## 推荐的 CSS
 
 ```css
-/\* 1. 全局布局：背景透明 \*/
+/* 1. 全局布局：背景透明 */
 html, body {
     background-color: rgba(0, 0, 0, 0) !important;
     margin: 0;
@@ -62,15 +58,15 @@ html, body {
     align-items: center;
 }
 
-/\* 2. 【核心修改】隐藏逻辑：先让所有东西透明 \*/
-body \* {
+/* 2. 【核心修改】隐藏逻辑：先让所有东西透明 */
+body * {
     opacity: 0;
     transition: opacity 0.3s ease;
 }
 
-/\* 3. 强制显示数字和心跳（无论它在哪里层级） \*/
+/* 3. 强制显示数字和心跳（无论它在哪里层级） */
 #heart-rate, .heart-rate, .bpm-value, 
-\[class\*="heart-rate"], \[id\*="heart-rate"], 
+[class*="heart-rate"], [id*="heart-rate"], 
 .value, .number {
     opacity: 1 !important;
     visibility: visible !important;
@@ -83,9 +79,9 @@ body \* {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
 }
 
-/\* 4. 左侧 SVG 爱心 \*/
+/* 4. 左侧 SVG 爱心 */
 #heart-rate::before, .heart-rate::before, .bpm-value::before,
-\[class\*="heart-rate"]::before, .value::before {
+[class*="heart-rate"]::before, .value::before {
     content: "";
     display: inline-block !important;
     width: 70px;
@@ -97,26 +93,24 @@ body \* {
     animation: heartBeat 1.2s infinite;
 }
 
-/\* 5. 鼠标悬停安全网：移入时显示设置按钮 \*/
-body:hover \* {
+/* 5. 鼠标悬停安全网：移入时显示设置按钮 */
+body:hover * {
     opacity: 1 !important;
 }
 
-/\* 6. 心跳动画 \*/
+/* 6. 心跳动画 */
 @keyframes heartBeat {
     0% { transform: scale(1); }
     10% { transform: scale(1.1); }
     20% { transform: scale(1); }
 }
 
-/\* 7. 彻底移除可能干扰的背景色块 \*/
+/* 7. 彻底移除可能干扰的背景色块 */
 div, section, main {
     background: transparent !important;
     box-shadow: none !important;
 }
-
 ```
-
 
 性能优化建议（解决数据延迟）
 
