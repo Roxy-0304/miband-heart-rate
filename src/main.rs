@@ -210,22 +210,119 @@ async fn index() -> Html<&'static str> {
     <meta charset="UTF-8" />
     <title>Mi Band Heart Rate</title>
     <style>
-        body { font-family: Arial, sans-serif; padding: 2rem; }
-        .value { font-size: 3rem; margin: 1rem 0; }
-        .label { color: #555; }
+        /* 全局布局：背景透明 */
+        html, body {
+            background-color: rgba(0, 0, 0, 0) !important;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+        }
+
+        /* 隐藏逻辑：先让所有东西透明 */
+        body * {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        /* 强制显示数字和心跳（无论它在哪里层级） */
+        #heart-rate, .heart-rate, .bpm-value, 
+        [class*="heart-rate"], [id*="heart-rate"], 
+        .value, .number {
+            opacity: 1 !important;
+            visibility: visible !important;
+            color: #FF3B30 !important;
+            font-family: "Arial Black", sans-serif;
+            font-size: 85px !important;
+            font-weight: 900;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+        }
+
+        /* 左侧 SVG 爱心 */
+        #heart-rate::before, .heart-rate::before, .bpm-value::before,
+        [class*="heart-rate"]::before, .value::before {
+            content: "";
+            display: inline-block !important;
+            width: 70px;
+            height: 70px;
+            margin-right: 15px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23FF3B30"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>');
+            background-repeat: no-repeat;
+            background-size: contain;
+            animation: heartBeat 1.2s infinite;
+        }
+
+        /* 鼠标悬停安全网：移入时显示设置按钮 */
+        body:hover * {
+            opacity: 1 !important;
+        }
+
+        /* 心跳动画 */
+        @keyframes heartBeat {
+            0% { transform: scale(1); }
+            10% { transform: scale(1.1); }
+            20% { transform: scale(1); }
+        }
+
+        /* 彻底移除可能干扰的背景色块 */
+        div, section, main {
+            background: transparent !important;
+            box-shadow: none !important;
+        }
+
+        /* 设置面板样式 */
+        #settings-panel {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.95) !important;
+            border: 1px solid #ccc;
+            padding: 1rem;
+            border-radius: 8px;
+            max-width: 560px;
+            z-index: 1000;
+            opacity: 1 !important;
+        }
+
+        #show-settings-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            opacity: 1 !important;
+            z-index: 999;
+        }
+
+        /* 状态文本样式 */
+        .label {
+            color: #555 !important;
+            opacity: 1 !important;
+        }
+
+        #status {
+            color: #d32f2f !important;
+            font-weight: bold !important;
+            margin: 1rem 0 !important;
+            opacity: 1 !important;
+        }
     </style>
 </head>
 <body>
-    <h1>Mi Band Heart Rate</h1>
-    <div class="label">Latest heart rate:</div>
-    <div id="rate" class="value">--</div>
-    <div id="status" class="label" style="color: #d32f2f; font-weight: bold; margin: 1rem 0;"></div>
-    <div id="sensor-contact-container" style="display: none;">
+    <div id="heart-rate" class="value">--</div>
+    <div id="status" class="label">等待连接...</div>
+    <div id="sensor-contact-container" style="display: none; opacity: 1 !important;">
         <div class="label">Sensor contact:</div>
         <div id="contact">--</div>
     </div>
     <button id="show-settings-btn" onclick="showSettings()">Settings</button>
-    <div id="settings-panel" style="display: none; margin-top: 1rem; border: 1px solid #ccc; padding: 1rem; border-radius: 8px; max-width: 560px;">
+    <div id="settings-panel" style="display: none;">
         <div>
             <button id="toggle-contact-btn" onclick="toggleSensorContact()">Show Sensor Contact</button>
         </div>
@@ -243,22 +340,22 @@ async fn index() -> Html<&'static str> {
                 const data = await res.json();
                 
                 if (data.scanning) {
-                    document.getElementById('rate').textContent = '--';
+                    document.getElementById('heart-rate').textContent = '--';
                     document.getElementById('status').textContent = '🔍 正在重新扫描设备...';
                     document.getElementById('status').style.color = '#1976d2';
                 } else if (!data.connected) {
-                    document.getElementById('rate').textContent = '--';
+                    document.getElementById('heart-rate').textContent = '--';
                     document.getElementById('status').textContent = '⚠ 蓝牙已断开连接';
                     document.getElementById('status').style.color = '#d32f2f';
                 } else {
-                    document.getElementById('rate').textContent = data.heart_rate;
+                    document.getElementById('heart-rate').textContent = data.heart_rate;
                     document.getElementById('status').textContent = '✓ 已连接';
                     document.getElementById('status').style.color = '#388e3c';
                 }
                 
                 document.getElementById('contact').textContent = data.sensor_contact === null ? 'unknown' : data.sensor_contact;
             } catch (err) {
-                document.getElementById('rate').textContent = '--';
+                document.getElementById('heart-rate').textContent = '--';
                 document.getElementById('status').textContent = '✗ 网络错误';
                 document.getElementById('status').style.color = '#d32f2f';
                 document.getElementById('contact').textContent = 'error';
