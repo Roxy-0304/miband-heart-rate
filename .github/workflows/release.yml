@@ -21,11 +21,12 @@ jobs:
       run: cargo build --release
     
     - name: Package
+      shell: pwsh
       run: |
-        mkdir -p package
-        copy target\release\miband-heart-rate.exe package\
-        copy README.md package\
-        copy README_EN.md package\
+        New-Item -ItemType Directory -Force -Path package
+        Copy-Item target\release\miband-heart-rate.exe package\
+        Copy-Item README.md package\
+        Copy-Item README_EN.md package\
     
     - name: Upload Release Asset
       uses: softprops/action-gh-release@v2
