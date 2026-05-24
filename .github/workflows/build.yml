@@ -22,10 +22,10 @@ jobs:
 
     - name: Generate version tag
       id: version
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       shell: pwsh
       run: |
-        $env:GH_TOKEN = ${{ secrets.GITHUB_TOKEN }}
-
         $content = Get-Content Cargo.toml -Raw
         $baseVersion = [regex]::Match($content, 'version\s*=\s*"([^"]+)"').Groups[1].Value
 
