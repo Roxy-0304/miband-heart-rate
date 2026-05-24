@@ -1,0 +1,71 @@
+name: Build & Release
+
+on:
+  push:
+    branches: [ 'main' ]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install Rust
+      uses: dtolnay/rust-toolchain@stable
+      with:
+        toolchain: stable
+        target: x86_64-pc-windows-msvc
+
+    - name: Generate version tag
+      id: version
+      shell: pwsh
+      run: |
+        # 从 Cargo.toml 读基础版本
+        $content = Get-Content Cargo.toml -Raw
+        $baseVersion = [regex]::Match($content, 'version\s*=\s*"([^"]+)"').Groups[1].Value
+
+        # 查询已有的 beta 标签，找到最大编号
+        $output = gh api "repos/$env:GITHUB_REPOSITORY/git/refs/tags" --paginate --jq '.[].ref' 2>&1
+        if ($LASTEXITCODE -eq 0 -and $output) {
+          $tags = $output -split "`n" | Where-Object { $_.Trim() -ne '' }
+        } else {
+          $tags = @()
+        }
+
+        $maxBeta = 0
+        foreach ($t in $tags) {
+          $cleanTag = $t.Replace('refs/tags/', '')
+          if ($cleanTag -match [regex]::Escape("v$baseVersion") + '-beta\.(\d+)$') {
+            $num = [int]$Matches[1]
+            if ($num -gt $maxBeta) { $maxBeta = $num }
+          }
+        }
+
+        $betaNum = $maxBeta + 1
+        $tag = "v$baseVersion-beta.$betaNum"
+
+        Write-Host "Version: $tag"
+        "TAG=$tag" >> $env:GITHUB_OUTPUT
+
+    - name: Build
+      run: cargo build --release
+
+    - name: Package
+      shell: pwsh
+      run: |
+        New-Item -ItemType Directory -Force -Path package
+        Copy-Item target\release\miband-heart-rate.exe package\
+
+    - name: Create Release
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: ${{ steps.version.outputs.TAG }}
+        name: ${{ steps.version.outputs.TAG }}
+        prerelease: true
+        generate_release_notes: true
+        files: package/*
+        token: ${{ secrets.GITHUB_TOKEN }}
