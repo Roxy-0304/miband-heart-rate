@@ -145,6 +145,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "band-heart-rate"
+version = "0.0.4"
+dependencies = [
+ "axum",
+ "bluest",
+ "futures-lite",
+ "serde",
+ "tokio",
+]
+
+[[package]]
 name = "bitflags"
 version = "2.9.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -680,17 +691,6 @@ name = "memchr"
 version = "2.7.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "32a282da65faaf38286cf3be983213fcf1d2e2a58700e808f83f4ea9a4804bc0"
-
-[[package]]
-name = "miband-heart-rate"
-version = "0.0.3"
-dependencies = [
- "axum",
- "bluest",
- "futures-lite",
- "serde",
- "tokio",
-]
 
 [[package]]
 name = "mime"
