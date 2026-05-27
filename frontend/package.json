@@ -1,0 +1,14 @@
+{
+  "name": "band-heart-rate-frontend",
+  "version": "26.5.1",
+  "private": true,
+  "scripts": {
+    "dev": "esbuild app.ts --bundle --outfile=dist/app.js",
+    "build": "esbuild app.ts --bundle --outfile=dist/app.js"
+  },
+  "devDependencies": {
+    "esbuild": "^0.24.0",
+    "@tauri-apps/api": "^2",
+    "typescript": "^5.6.0"
+  }
+}

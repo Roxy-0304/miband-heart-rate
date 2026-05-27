@@ -1,0 +1,281 @@
+/* ===== Reset & Base ===== */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  background: #0a0e16;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  color: #e0e3e8;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  padding: 24px 32px;
+  background: radial-gradient(ellipse at 50% 30%, rgba(255, 59, 48, 0.04) 0%, transparent 70%),
+              linear-gradient(180deg, #0a0e16 0%, #0d111c 100%);
+}
+
+/* ===== Status Bar ===== */
+.status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 4px;
+  border-bottom: 1px solid rgba(139, 148, 158, 0.15);
+  margin-bottom: 20px;
+}
+
+.status-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.status-dot.connected {
+  background: #4ade80;
+  box-shadow: 0 0 8px rgba(74, 222, 128, 0.5);
+}
+
+.status-dot.scanning {
+  background: #fbbf24;
+  box-shadow: 0 0 8px rgba(251, 191, 36, 0.5);
+  animation: blink 1s ease-in-out infinite;
+}
+
+.status-dot.disconnected {
+  background: #ef4444;
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.4);
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.status-text {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: color 0.3s ease;
+}
+
+.status-text.connected { color: #4ade80; }
+.status-text.scanning  { color: #fbbf24; }
+.status-text.disconnected { color: #ef4444; }
+
+.title-text {
+  font-size: 12px;
+  font-weight: 500;
+  color: #8b949e;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* ===== Hero Section ===== */
+.hero-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  gap: 4px;
+  position: relative;
+}
+
+.heart-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.heart-icon {
+  width: 64px;
+  height: 64px;
+  fill: #ef4444;
+  filter: drop-shadow(0 0 16px rgba(239, 68, 68, 0.4));
+  animation: heartbeat 1.2s ease-in-out infinite;
+  transition: fill 0.4s ease, filter 0.4s ease;
+}
+
+.heart-icon.paused {
+  fill: #4a4f58;
+  animation: none;
+  filter: none;
+}
+
+@keyframes heartbeat {
+  0%   { transform: scale(1);    filter: drop-shadow(0 0 16px rgba(239, 68, 68, 0.4)); }
+  14%  { transform: scale(1.12); filter: drop-shadow(0 0 24px rgba(239, 68, 68, 0.5)); }
+  28%  { transform: scale(1);    filter: drop-shadow(0 0 16px rgba(239, 68, 68, 0.4)); }
+  42%  { transform: scale(1.06); filter: drop-shadow(0 0 20px rgba(239, 68, 68, 0.45)); }
+  56%  { transform: scale(1);    filter: drop-shadow(0 0 16px rgba(239, 68, 68, 0.4)); }
+}
+
+.bpm-number {
+  font-family: 'Orbitron', 'Segoe UI', monospace;
+  font-weight: 900;
+  font-size: 128px;
+  line-height: 1;
+  letter-spacing: -2px;
+  transition: color 0.4s ease, text-shadow 0.4s ease;
+}
+
+.bpm-number.no-data {
+  color: #4a4f58;
+  text-shadow: none;
+}
+
+.bpm-number.zone-warmup  { color: #4FC3F7; text-shadow: 0 0 40px rgba(79, 195, 247, 0.3); }
+.bpm-number.zone-fatburn { color: #66BB6A; text-shadow: 0 0 40px rgba(102, 187, 106, 0.3); }
+.bpm-number.zone-aerobic { color: #FFA726; text-shadow: 0 0 40px rgba(255, 167, 38, 0.3); }
+.bpm-number.zone-limit   { color: #EF5350; text-shadow: 0 0 40px rgba(239, 83, 80, 0.3); }
+
+.bpm-label {
+  font-size: 20px;
+  font-weight: 300;
+  color: #8b949e;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  margin-top: -4px;
+}
+
+.zone-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 20px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-top: 8px;
+  transition: all 0.4s ease;
+}
+
+.zone-badge.no-data {
+  background: rgba(74, 79, 88, 0.15);
+  color: #4a4f58;
+  border: 1px solid rgba(74, 79, 88, 0.2);
+}
+
+.zone-badge.zone-warmup {
+  background: rgba(79, 195, 247, 0.12);
+  color: #4FC3F7;
+  border: 1px solid rgba(79, 195, 247, 0.3);
+  box-shadow: 0 0 12px rgba(79, 195, 247, 0.15);
+}
+
+.zone-badge.zone-fatburn {
+  background: rgba(102, 187, 106, 0.12);
+  color: #66BB6A;
+  border: 1px solid rgba(102, 187, 106, 0.3);
+  box-shadow: 0 0 12px rgba(102, 187, 106, 0.15);
+}
+
+.zone-badge.zone-aerobic {
+  background: rgba(255, 167, 38, 0.12);
+  color: #FFA726;
+  border: 1px solid rgba(255, 167, 38, 0.3);
+  box-shadow: 0 0 12px rgba(255, 167, 38, 0.15);
+}
+
+.zone-badge.zone-limit {
+  background: rgba(239, 83, 80, 0.12);
+  color: #EF5350;
+  border: 1px solid rgba(239, 83, 80, 0.3);
+  box-shadow: 0 0 12px rgba(239, 83, 80, 0.15);
+}
+
+/* ===== Stats Bar ===== */
+.stats-bar {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  padding: 16px 0;
+  margin-top: auto;
+  border-top: 1px solid rgba(139, 148, 158, 0.12);
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.stat-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #8b949e;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.stat-value {
+  font-family: 'Orbitron', 'Cascadia Code', monospace;
+  font-size: 28px;
+  font-weight: 700;
+  transition: color 0.3s ease;
+}
+
+.stat-value.min { color: #4FC3F7; }
+.stat-value.max { color: #EF5350; }
+.stat-value.avg { color: #e0e3e8; }
+
+.stat-value.no-data {
+  color: #4a4f58;
+}
+
+/* ===== Controls ===== */
+.controls {
+  display: flex;
+  gap: 12px;
+  padding: 12px 0 4px;
+  justify-content: center;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: 0.5px;
+}
+
+.btn:active {
+  transform: scale(0.96);
+}
+
+.btn-secondary {
+  background: rgba(139, 148, 158, 0.1);
+  color: #8b949e;
+  border: 1px solid rgba(139, 148, 158, 0.2);
+}
+
+.btn-secondary:hover {
+  background: rgba(139, 148, 158, 0.18);
+  color: #e0e3e8;
+}

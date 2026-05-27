@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Band Heart Rate Monitor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- 状态栏 -->
+  <div class="status-bar">
+    <div class="status-left">
+      <span class="status-dot disconnected" id="status-dot"></span>
+      <span class="status-text disconnected" id="status-text">断开连接</span>
+    </div>
+    <span class="title-text">Band Heart Rate Monitor</span>
+  </div>
+
+  <!-- 心率主显示区 -->
+  <div class="hero-section">
+    <div class="heart-container">
+      <svg class="heart-icon paused" id="heart-icon" viewBox="0 0 24 24">
+        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5
+                 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09
+                 C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5
+                 c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+      </svg>
+      <div class="bpm-number no-data" id="bpm-number">--</div>
+    </div>
+    <div class="bpm-label">BPM</div>
+    <div class="zone-badge no-data" id="zone-badge">--</div>
+  </div>
+
+  <!-- 统计栏 -->
+  <div class="stats-bar">
+    <div class="stat-item">
+      <span class="stat-label">最低</span>
+      <span class="stat-value no-data min" id="stat-min">--</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">最高</span>
+      <span class="stat-value no-data max" id="stat-max">--</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">平均</span>
+      <span class="stat-value no-data avg" id="stat-avg">--</span>
+    </div>
+  </div>
+
+  <!-- 控制按钮 -->
+  <div class="controls">
+    <button class="btn btn-secondary" id="btn-reset">
+      <span>↻</span> 重置统计
+    </button>
+  </div>
+
+  <script src="dist/app.js"></script>
+</body>
+</html>

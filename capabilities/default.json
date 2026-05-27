@@ -1,0 +1,9 @@
+{
+  "identifier": "default",
+  "description": "Default permissions for the band heart rate monitor",
+  "windows": ["main"],
+  "permissions": [
+    "core:default",
+    "core:event:allow-listen"
+  ]
+}
