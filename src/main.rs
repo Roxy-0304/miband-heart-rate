@@ -11,7 +11,7 @@ use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Arc, Mutex};
 use tauri::{Emitter, Manager};
 
-/// 打印并立即刷新 stdout 的宏（换行版本）
+/// 打印并立即刷新 stdout 的宏（自动换行）
 macro_rules! printfl {
     ($($arg:tt)*) => {{
         print!($($arg)*);
@@ -19,7 +19,7 @@ macro_rules! printfl {
     }};
 }
 
-/// 打印并立即刷新 stderr 的宏（换行版本）
+/// 打印并立即刷新 stderr 的宏（自动换行）
 macro_rules! eprintfl {
     ($($arg:tt)*) => {{
         eprint!($($arg)*);
@@ -830,14 +830,14 @@ async fn handle_device(
         }
     }
 
-    let was_connected = match tokio::time::timeout(Duration::from_secs(3), device.is_connected()).await {
+    let still_connected = match tokio::time::timeout(Duration::from_secs(3), device.is_connected()).await {
         Ok(true) => true,
         _ => false,
     };
     tx.send_replace(HeartRateReading::default());
     let _ = tokio::time::timeout(Duration::from_secs(3), adapter.disconnect_device(&device)).await;
 
-    if was_connected {
+    if still_connected {
         printfl!("设备已停止广播，尝试重连...\n");
         Err(Box::new(ReconnectError::StoppedBroadcasting))
     } else {

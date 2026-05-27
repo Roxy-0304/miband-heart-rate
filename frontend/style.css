@@ -269,16 +269,6 @@ body {
   transform: scale(0.96);
 }
 
-.btn-primary {
-  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-  color: #fff;
-  box-shadow: 0 0 16px rgba(239, 68, 68, 0.25);
-}
-
-.btn-primary:hover {
-  box-shadow: 0 0 24px rgba(239, 68, 68, 0.4);
-}
-
 .btn-secondary {
   background: rgba(139, 148, 158, 0.1);
   color: #8b949e;
