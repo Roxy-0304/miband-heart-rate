@@ -225,7 +225,7 @@ band-heart-rate/
 
 ![Desktop Main Interface](doc/1.png)
 
-> 📸 Screenshot shows the dark-themed Tauri desktop interface with heart rate display, zone badges, statistics panel, and connection status. For the Web OBS overlay, see the [Web UI section](#web-server-obs).
+![Tauri Desktop UI Feature Demo](doc/3.png)
 
 ![Live Demo](doc/2.gif)
 

@@ -25,13 +25,6 @@ const ZONES: { name: ZoneName; label: string; min: number; max: number }[] = [
   { name: "limit", label: "极限", min: 0.80, max: 1.00 },
 ];
 
-const ZONE_COLORS: Record<ZoneName, string> = {
-  warmup: "#4FC3F7",
-  fatburn: "#66BB6A",
-  aerobic: "#FFA726",
-  limit: "#EF5350",
-};
-
 // ===== DOM References =====
 
 const statusDot = document.getElementById("status-dot")!;
@@ -54,8 +47,6 @@ let statsCount = 0;
 
 // Last known good BPM (for zone display)
 let latestBpm = 0;
-let isConnected = false;
-let isScanning = false;
 
 // ===== Heart Rate Zone Logic =====
 
@@ -76,9 +67,6 @@ function getZoneLabel(zone: ZoneName | null): string {
 // ===== Update UI =====
 
 function updateStatus(connected: boolean, scanning: boolean) {
-  isConnected = connected;
-  isScanning = scanning;
-
   statusDot.className = "status-dot";
   statusText.className = "status-text";
 
@@ -186,8 +174,8 @@ async function catchUp() {
     if (data.connected && data.heart_rate > 0) {
       handleData(data.heart_rate);
     }
-  } catch {
-    // ignore — app might not be ready
+  } catch (err) {
+    console.error("[catchUp] invoke get_latest_reading failed:", err);
   }
 }
 

@@ -225,7 +225,7 @@ band-heart-rate/
 
 ![桌面主界面](doc/1.png)
 
-> 📸 截图展示了 Tauri 桌面应用的暗色科技风界面，包括心率大数字、区间标识、统计面板和连接状态。Web OBS 叠加层请参考 [Web UI 说明](#web-服务器obs)。
+![Tauri 桌面 UI 功能展示](doc/3.png)
 
 ![运行演示](doc/2.gif)
 

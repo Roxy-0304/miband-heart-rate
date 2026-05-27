@@ -1,6 +1,6 @@
 #![windows_subsystem = "windows"]
 
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 use std::error::Error;
 use std::fmt;
 use std::io::Write;
@@ -666,7 +666,7 @@ async fn scan_all_devices(
     };
 
     // 用 HashSet 去重，同一个手环的多次广播不会重复添加
-    let mut devices_set: std::collections::HashSet<Device> = std::collections::HashSet::new();
+    let mut devices_set: HashSet<Device> = HashSet::new();
 
     // 扫描最多 SCAN_ATTEMPT_TIMEOUT_SECS 秒，但第一个设备出现后等待 2 秒收集备选就返回
     let deadline = Duration::from_secs(SCAN_ATTEMPT_TIMEOUT_SECS);

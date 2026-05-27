@@ -3,7 +3,7 @@
   "version": "26.5.1",
   "private": true,
   "scripts": {
-    "dev": "esbuild app.ts --bundle --outfile=dist/app.js",
+    "dev": "esbuild app.ts --bundle --outfile=dist/app.js --watch",
     "build": "esbuild app.ts --bundle --outfile=dist/app.js"
   },
   "devDependencies": {
