@@ -1,67 +1,36 @@
-/* ===== 全局变量 & 基础 ===== */
-:root {
-  --bg-primary: #0d1117;
-  --bg-secondary: #161b22;
-  --bg-card: #21262d;
-  --text-primary: #e6edf3;
-  --text-secondary: #8b949e;
-  --border-color: #30363d;
-  --accent-red: #FF3B30;
-  --accent-orange: #FFA726;
-  --accent-green: #66BB6A;
-  --accent-blue: #4FC3F7;
-  --accent-purple: #AB47BC;
-
-  /* 心率区间色 */
-  --zone-warmup: #4FC3F7;
-  --zone-fatburn: #66BB6A;
-  --zone-aerobic: #FFA726;
-  --zone-limit: #EF5350;
-
-  /* 霓虹辉光 */
-  --glow-red: rgba(255, 59, 48, 0.4);
-  --glow-orange: rgba(255, 167, 38, 0.4);
-  --glow-green: rgba(102, 187, 106, 0.4);
-  --glow-blue: rgba(79, 195, 247, 0.4);
-
-  --font-display: 'Orbitron', 'Segoe UI', sans-serif;
-  --font-mono: 'Cascadia Code', 'Fira Code', monospace;
-  --font-body: 'Segoe UI', system-ui, -apple-system, sans-serif;
-}
-
-* {
+/* ===== Reset & Base ===== */
+*, *::before, *::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-html {
-  width: 100%;
+html, body {
   height: 100%;
-}
-
-body {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100vh;
-  background: var(--bg-primary);
-  color: var(--text-primary);
-  font-family: var(--font-body);
+  background: #0a0e16;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  color: #e0e3e8;
   overflow: hidden;
   user-select: none;
   -webkit-user-select: none;
 }
 
-/* ===== 连接状态栏 ===== */
+body {
+  display: flex;
+  flex-direction: column;
+  padding: 24px 32px;
+  background: radial-gradient(ellipse at 50% 30%, rgba(255, 59, 48, 0.04) 0%, transparent 70%),
+              linear-gradient(180deg, #0a0e16 0%, #0d111c 100%);
+}
+
+/* ===== Status Bar ===== */
 .status-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 24px;
-  background: var(--bg-secondary);
-  border-bottom: 1px solid var(--border-color);
-  font-size: 13px;
+  padding: 8px 4px;
+  border-bottom: 1px solid rgba(139, 148, 158, 0.15);
+  margin-bottom: 20px;
 }
 
 .status-left {
@@ -71,28 +40,27 @@ body {
 }
 
 .status-dot {
-  display: inline-block;
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
-  background: var(--text-secondary);
-  transition: background 0.3s, box-shadow 0.3s;
+  display: inline-block;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
 .status-dot.connected {
-  background: var(--accent-green);
-  box-shadow: 0 0 8px var(--glow-green);
+  background: #4ade80;
+  box-shadow: 0 0 8px rgba(74, 222, 128, 0.5);
 }
 
 .status-dot.scanning {
-  background: var(--accent-orange);
-  box-shadow: 0 0 8px var(--glow-orange);
-  animation: blink 0.8s ease-in-out infinite;
+  background: #fbbf24;
+  box-shadow: 0 0 8px rgba(251, 191, 36, 0.5);
+  animation: blink 1s ease-in-out infinite;
 }
 
 .status-dot.disconnected {
-  background: var(--accent-red);
-  box-shadow: 0 0 8px var(--glow-red);
+  background: #ef4444;
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.4);
 }
 
 @keyframes blink {
@@ -101,32 +69,34 @@ body {
 }
 
 .status-text {
-  color: var(--text-secondary);
   font-size: 12px;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
+  transition: color 0.3s ease;
 }
 
-.status-text.connected { color: var(--accent-green); }
-.status-text.scanning { color: var(--accent-orange); }
-.status-text.disconnected { color: var(--accent-red); }
+.status-text.connected { color: #4ade80; }
+.status-text.scanning  { color: #fbbf24; }
+.status-text.disconnected { color: #ef4444; }
 
 .title-text {
-  font-family: var(--font-body);
-  font-weight: 600;
-  font-size: 13px;
-  letter-spacing: 2px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #8b949e;
+  letter-spacing: 0.5px;
   text-transform: uppercase;
-  color: var(--text-secondary);
 }
 
-/* ===== 心率主显示区 ===== */
+/* ===== Hero Section ===== */
 .hero-section {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 28px 24px 20px;
-  flex-shrink: 0;
+  justify-content: center;
+  flex: 1;
+  gap: 4px;
+  position: relative;
 }
 
 .heart-container {
@@ -136,277 +106,186 @@ body {
 }
 
 .heart-icon {
-  width: 72px;
-  height: 72px;
-  flex-shrink: 0;
-  fill: var(--accent-red);
-  filter: drop-shadow(0 0 16px var(--glow-red));
+  width: 64px;
+  height: 64px;
+  fill: #ef4444;
+  filter: drop-shadow(0 0 16px rgba(239, 68, 68, 0.4));
   animation: heartbeat 1.2s ease-in-out infinite;
+  transition: fill 0.4s ease, filter 0.4s ease;
 }
 
 .heart-icon.paused {
+  fill: #4a4f58;
   animation: none;
-  fill: var(--text-secondary);
   filter: none;
 }
 
 @keyframes heartbeat {
-  0%   { transform: scale(1);    filter: drop-shadow(0 0 14px var(--glow-red)); }
-  12%  { transform: scale(1.15); filter: drop-shadow(0 0 24px var(--glow-red)); }
-  25%  { transform: scale(1);    filter: drop-shadow(0 0 14px var(--glow-red)); }
-  38%  { transform: scale(1.07); filter: drop-shadow(0 0 18px var(--glow-red)); }
-  50%  { transform: scale(1);    filter: drop-shadow(0 0 14px var(--glow-red)); }
+  0%   { transform: scale(1);    filter: drop-shadow(0 0 16px rgba(239, 68, 68, 0.4)); }
+  14%  { transform: scale(1.12); filter: drop-shadow(0 0 24px rgba(239, 68, 68, 0.5)); }
+  28%  { transform: scale(1);    filter: drop-shadow(0 0 16px rgba(239, 68, 68, 0.4)); }
+  42%  { transform: scale(1.06); filter: drop-shadow(0 0 20px rgba(239, 68, 68, 0.45)); }
+  56%  { transform: scale(1);    filter: drop-shadow(0 0 16px rgba(239, 68, 68, 0.4)); }
 }
 
 .bpm-number {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 96px;
+  font-family: 'Orbitron', 'Segoe UI', monospace;
+  font-weight: 900;
+  font-size: 128px;
   line-height: 1;
-  color: var(--accent-red);
-  text-shadow: 0 0 30px var(--glow-red);
-  transition: color 0.4s, text-shadow 0.4s;
-  min-width: 150px;
-  text-align: center;
-}
-
-.bpm-number.zone-warmup {
-  color: var(--accent-blue);
-  text-shadow: 0 0 30px var(--glow-blue);
-}
-
-.bpm-number.zone-fatburn {
-  color: var(--accent-green);
-  text-shadow: 0 0 30px var(--glow-green);
-}
-
-.bpm-number.zone-aerobic {
-  color: var(--accent-orange);
-  text-shadow: 0 0 30px var(--glow-orange);
-}
-
-.bpm-number.zone-limit {
-  color: var(--accent-red);
-  text-shadow: 0 0 30px var(--glow-red);
+  letter-spacing: -2px;
+  transition: color 0.4s ease, text-shadow 0.4s ease;
 }
 
 .bpm-number.no-data {
-  color: var(--text-secondary);
+  color: #4a4f58;
   text-shadow: none;
 }
 
+.bpm-number.zone-warmup  { color: #4FC3F7; text-shadow: 0 0 40px rgba(79, 195, 247, 0.3); }
+.bpm-number.zone-fatburn { color: #66BB6A; text-shadow: 0 0 40px rgba(102, 187, 106, 0.3); }
+.bpm-number.zone-aerobic { color: #FFA726; text-shadow: 0 0 40px rgba(255, 167, 38, 0.3); }
+.bpm-number.zone-limit   { color: #EF5350; text-shadow: 0 0 40px rgba(239, 83, 80, 0.3); }
+
 .bpm-label {
-  font-size: 14px;
-  letter-spacing: 3px;
+  font-size: 20px;
+  font-weight: 300;
+  color: #8b949e;
+  letter-spacing: 6px;
   text-transform: uppercase;
-  color: var(--text-secondary);
-  margin-top: 4px;
+  margin-top: -4px;
 }
 
-/* ===== 心率区间标签 ===== */
 .zone-badge {
-  margin-top: 6px;
-  padding: 4px 18px;
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 20px;
   border-radius: 20px;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 2px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1px;
   text-transform: uppercase;
-  transition: background 0.4s, color 0.4s;
-}
-
-.zone-badge.zone-warmup {
-  background: rgba(79, 195, 247, 0.15);
-  color: var(--accent-blue);
-  border: 1px solid rgba(79, 195, 247, 0.3);
-}
-
-.zone-badge.zone-fatburn {
-  background: rgba(102, 187, 106, 0.15);
-  color: var(--accent-green);
-  border: 1px solid rgba(102, 187, 106, 0.3);
-}
-
-.zone-badge.zone-aerobic {
-  background: rgba(255, 167, 38, 0.15);
-  color: var(--accent-orange);
-  border: 1px solid rgba(255, 167, 38, 0.3);
-}
-
-.zone-badge.zone-limit {
-  background: rgba(239, 83, 80, 0.15);
-  color: var(--accent-red);
-  border: 1px solid rgba(239, 83, 80, 0.3);
+  margin-top: 8px;
+  transition: all 0.4s ease;
 }
 
 .zone-badge.no-data {
-  opacity: 0;
+  background: rgba(74, 79, 88, 0.15);
+  color: #4a4f58;
+  border: 1px solid rgba(74, 79, 88, 0.2);
 }
 
-/* ===== 统计栏 ===== */
+.zone-badge.zone-warmup {
+  background: rgba(79, 195, 247, 0.12);
+  color: #4FC3F7;
+  border: 1px solid rgba(79, 195, 247, 0.3);
+  box-shadow: 0 0 12px rgba(79, 195, 247, 0.15);
+}
+
+.zone-badge.zone-fatburn {
+  background: rgba(102, 187, 106, 0.12);
+  color: #66BB6A;
+  border: 1px solid rgba(102, 187, 106, 0.3);
+  box-shadow: 0 0 12px rgba(102, 187, 106, 0.15);
+}
+
+.zone-badge.zone-aerobic {
+  background: rgba(255, 167, 38, 0.12);
+  color: #FFA726;
+  border: 1px solid rgba(255, 167, 38, 0.3);
+  box-shadow: 0 0 12px rgba(255, 167, 38, 0.15);
+}
+
+.zone-badge.zone-limit {
+  background: rgba(239, 83, 80, 0.12);
+  color: #EF5350;
+  border: 1px solid rgba(239, 83, 80, 0.3);
+  box-shadow: 0 0 12px rgba(239, 83, 80, 0.15);
+}
+
+/* ===== Stats Bar ===== */
 .stats-bar {
-  display: flex;
-  justify-content: center;
-  gap: 48px;
-  padding: 14px 24px;
-  background: var(--bg-secondary);
-  border-top: 1px solid var(--border-color);
-  border-bottom: 1px solid var(--border-color);
-  flex-shrink: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  padding: 16px 0;
+  margin-top: auto;
+  border-top: 1px solid rgba(139, 148, 158, 0.12);
 }
 
 .stat-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
+  gap: 4px;
 }
 
 .stat-label {
-  font-size: 10px;
-  letter-spacing: 2px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #8b949e;
   text-transform: uppercase;
-  color: var(--text-secondary);
+  letter-spacing: 1.5px;
 }
 
 .stat-value {
-  font-family: var(--font-display);
-  font-size: 26px;
+  font-family: 'Orbitron', 'Cascadia Code', monospace;
+  font-size: 28px;
   font-weight: 700;
+  transition: color 0.3s ease;
 }
 
-.stat-value.min { color: var(--accent-blue); }
-.stat-value.max { color: var(--accent-red); }
-.stat-value.avg { color: var(--accent-green); }
+.stat-value.min { color: #4FC3F7; }
+.stat-value.max { color: #EF5350; }
+.stat-value.avg { color: #e0e3e8; }
 
 .stat-value.no-data {
-  color: var(--text-secondary);
+  color: #4a4f58;
 }
 
-/* ===== 心率曲线图 ===== */
-.chart-section {
-  padding: 12px 24px;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  overflow: hidden;
-}
-
-.chart-title {
-  font-size: 11px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--text-secondary);
-  margin-bottom: 8px;
-}
-
-.chart-wrapper {
-  background: var(--bg-card);
-  border-radius: 8px;
-  border: 1px solid var(--border-color);
-  padding: 8px;
-  flex: 1;
-  display: flex;
-  overflow: hidden;
-  min-height: 0;
-}
-
-#heart-rate-chart {
-  width: 100%;
-  height: 100%;
-  border-radius: 4px;
-}
-
-/* ===== 控制按钮 ===== */
+/* ===== Controls ===== */
 .controls {
   display: flex;
+  gap: 12px;
+  padding: 12px 0 4px;
   justify-content: center;
-  gap: 16px;
-  padding: 16px 24px;
-  background: var(--bg-secondary);
-  border-top: 1px solid var(--border-color);
-  flex-shrink: 0;
 }
 
 .btn {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 28px;
-  border: 1px solid var(--border-color);
-  border-radius: 6px;
-  background: var(--bg-card);
-  color: var(--text-primary);
-  font-family: var(--font-body);
+  padding: 10px 24px;
+  border: none;
+  border-radius: 8px;
   font-size: 13px;
   font-weight: 600;
-  letter-spacing: 1px;
   cursor: pointer;
-  transition: all 0.2s;
-}
-
-.btn:hover {
-  background: var(--border-color);
-  border-color: var(--text-secondary);
+  transition: all 0.2s ease;
+  letter-spacing: 0.5px;
 }
 
 .btn:active {
-  transform: scale(0.97);
+  transform: scale(0.96);
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #1a6dff, #0051cc);
-  border-color: #1a6dff;
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
   color: #fff;
+  box-shadow: 0 0 16px rgba(239, 68, 68, 0.25);
 }
 
 .btn-primary:hover {
-  background: linear-gradient(135deg, #3b82ff, #1a6dff);
-  border-color: #3b82ff;
-}
-
-.btn-primary.recording {
-  background: linear-gradient(135deg, #dc2626, #b91c1c);
-  border-color: #dc2626;
-  animation: pulse-btn 1.5s ease-in-out infinite;
-}
-
-@keyframes pulse-btn {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.4); }
-  50% { box-shadow: 0 0 0 8px rgba(220, 38, 38, 0); }
+  box-shadow: 0 0 24px rgba(239, 68, 68, 0.4);
 }
 
 .btn-secondary {
-  background: transparent;
+  background: rgba(139, 148, 158, 0.1);
+  color: #8b949e;
+  border: 1px solid rgba(139, 148, 158, 0.2);
 }
 
 .btn-secondary:hover {
-  background: var(--bg-card);
-}
-
-/* ===== 记录状态指示 ===== */
-.recording-indicator {
-  display: none;
-  position: fixed;
-  top: 10px;
-  right: 24px;
-  align-items: center;
-  gap: 6px;
-  font-size: 11px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: var(--accent-red);
-}
-
-.recording-indicator.active {
-  display: flex;
-}
-
-.rec-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--accent-red);
-  animation: blink 1s ease-in-out infinite;
+  background: rgba(139, 148, 158, 0.18);
+  color: #e0e3e8;
 }

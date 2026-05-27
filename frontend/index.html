@@ -9,12 +9,6 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- 录制状态指示器 -->
-  <div class="recording-indicator" id="recording-indicator">
-    <span class="rec-dot"></span>
-    REC
-  </div>
-
   <!-- 状态栏 -->
   <div class="status-bar">
     <div class="status-left">
@@ -55,19 +49,8 @@
     </div>
   </div>
 
-  <!-- 心率曲线图 -->
-  <div class="chart-section">
-    <div class="chart-title">心率曲线</div>
-    <div class="chart-wrapper">
-      <canvas id="heart-rate-chart"></canvas>
-    </div>
-  </div>
-
   <!-- 控制按钮 -->
   <div class="controls">
-    <button class="btn btn-primary" id="btn-record">
-      <span>▶</span> 开始记录
-    </button>
     <button class="btn btn-secondary" id="btn-reset">
       <span>↻</span> 重置统计
     </button>
