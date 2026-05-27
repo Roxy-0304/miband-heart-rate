@@ -146,7 +146,7 @@ dependencies = [
 
 [[package]]
 name = "band-heart-rate"
-version = "0.0.4"
+version = "26.5.1"
 dependencies = [
  "axum",
  "bluest",

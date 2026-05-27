@@ -26,7 +26,7 @@ jobs:
       shell: pwsh
       run: |
         New-Item -ItemType Directory -Force -Path package
-        Copy-Item target\release\miband-heart-rate.exe package\
+        Copy-Item target\release\band-heart-rate.exe package\
 
     - name: Upload Release Asset
       uses: softprops/action-gh-release@v2
